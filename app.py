@@ -1,8 +1,9 @@
 import os
 import sys
-from apikey import apikey
+from dotenv import load_dotenv
 from langchain.document_loaders import TextLoader
 
-os.environ["OPENAI_API_KEY"] = apikey
+load_dotenv()
 
-query
+apikey = os.getenv("API_KEY")
+
