@@ -1,1 +1,28 @@
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae quos nostrum sed aliquid veritatis veniam consequatur facilis in soluta, odio eum. Et amet, fuga pariatur totam temporibus saepe rerum ab!ß
+LangChain is a framework designed to simplify the creation of applications using large language models (LLMs). As a language model integration framework, LangChain's use-cases largely overlap with those of language models in general, including document analysis and summarization, chatbots, and code analysis.[1]
+Background
+
+LangChain was launched in October 2022 as an open source project by Harrison Chase, while working at machine learning startup Robust Intelligence. The project quickly garnered popularity, with improvements from hundreds of contributors on GitHub, trending discussions on Twitter, lively activity on the project's Discord server, many YouTube tutorials, and meetups in San Francisco and London. In April 2023, the new startup raised over $20 million in funding at a valuation of at least $200 million from venture firm Sequoia Capital, a week after announcing a $10 million seed investment from Benchmark.[2][3]
+Integrations
+
+As of March 2023, LangChain included integrations with systems including Amazon, Google, and Microsoft Azure cloud storage; API wrappers for news, movie information, and weather; Bash for summarization, syntax and semantics checking, and execution of shell scripts; multiple web scraping subsystems and templates; few-shot learning prompt generation support; finding and summarizing "todo" tasks in code; Google Drive documents, spreadsheets, and presentations summarization, extraction, and creation; Google Search and Microsoft Bing web search; OpenAI, Anthropic, and Hugging Face language models; iFixit repair guides and wikis search and summarization; MapReduce for question answering, combining documents, and question generation; N-gram overlap scoring; PyPDF, pdfminer, fitz, and pymupdf for PDF file text extraction and manipulation; Python and JavaScript code generation, analysis, and debugging; Weaviate vector database[4] to cache embedding and data objects; Redis cache database storage; Python RequestsWrapper and other methods for API requests; SQL and NoSQL databases including JSON support; Streamlit, including for logging; text mapping for k-nearest neighbors search; time zone conversion and calendar operations; tracing and recording stack symbols in threaded and asynchronous subprocess runs; and the Wolfram Alpha website and SDK.[5] As of April 2023, it can read from more than 50 document types and data sources.[6]
+Further reading
+
+    Briggs, James; Ingham, Francisco (2023). "LangChain: Introduction and Getting Started". LangChain AI Handbook. Pinecone. Retrieved 2023-04-18.
+    Buniatyan, Davit (2023). "Ultimate Guide to LangChain & Deep Lake: Build ChatGPT to Answer Questions on Your Financial Data". Activeloop.[7]
+
+References
+
+Buniatyan, Davit (2023). "Code Understanding Using LangChain". Activeloop.
+Palazzolo, Stephanie (2023-04-13). "AI startup LangChain taps Sequoia to lead funding round at a valuation of at least $200 million". Business Insider. Archived from the original on 2023-04-18. Retrieved 2023-04-18.
+Griffith, Erin; Metz, Cade (2023-03-14). "'Let 1,000 Flowers Bloom': A.I. Funding Frenzy Escalates". The New York Times. ISSN 0362-4331. Archived from the original on 2023-04-18. Retrieved 2023-04-18.
+"Weaviate — LangChain 0.0.184". python.langchain.com. Archived from the original on 2023-05-29. Retrieved 2023-05-29.
+Hug, Daniel Patrick (2023-03-08). "Hierarchical topic tree of LangChain's integrations" (PDF). GitHub. Archived from the original on 2023-04-29. Retrieved 2023-04-18.
+"Document Loaders — LangChain 0.0.142". python.langchain.com. Archived from the original on 2023-04-18. Retrieved 2023-04-18.
+
+    Buniatyan, Davit. "Ultimate Guide to LangChain & Deep Lake: Build ChatGPT to Answer Questions on Your Financial Data". Activeloop.
+
+External links
+Wikidata has data related to LangChain
+
+    Official website
+    Discord server support hub
