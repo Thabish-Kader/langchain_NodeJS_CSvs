@@ -1,21 +1,24 @@
-import { ChatOpenAI } from "langchain/chat_models/openai";
 import { config } from "dotenv";
-import { HumanMessage, ChatMessage, SystemMessage } from "langchain/schema";
+import { PromptTemplate } from "langchain/prompts";
+import { OpenAI } from "langchain/llms/openai";
 
 config();
 
-const chat = new ChatOpenAI({
-	openAIApiKey: process.env.OPENAI_API_KEY,
-	temperature: 0,
+const llm = new OpenAI({
+	openAIApiKey: process.env.OPENAI_API_KEY!,
+	temperature: 0.9,
 });
 
-const predictSockCompany = async () => {
-	const result = await chat.predictMessages([
-		new HumanMessage(
-			"Translate this sentence from English to French. I love programming."
-		),
-	]);
+const prompt = PromptTemplate.fromTemplate(
+	"What is a good name for a company that makes {product}?"
+);
 
+const predictSockCompany = async () => {
+	const formattedPrompt = await prompt.format({
+		product: "colorful socks",
+	});
+
+	const result = await llm.predict(formattedPrompt);
 	console.log(result);
 };
 
