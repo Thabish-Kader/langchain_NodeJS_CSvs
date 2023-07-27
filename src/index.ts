@@ -9,7 +9,7 @@ import { RetrievalQAChain, loadQARefineChain } from "langchain/chains";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import * as fs from "fs";
+
 // 3. Import dotenv for loading environment variables and fs for file system operations
 import dotenv from "dotenv";
 
