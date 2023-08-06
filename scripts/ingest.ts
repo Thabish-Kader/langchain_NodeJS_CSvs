@@ -1,13 +1,13 @@
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
 import { TextLoader } from "langchain/document_loaders/fs/text";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-
-const filePath = "./docs";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { ChromaClient } from "chromadb";
 
 export const run = async () => {
 	try {
 		// load the document from the directory
-		const directoryLoader = new DirectoryLoader(filePath, {
+		const directoryLoader = new DirectoryLoader("./docs", {
 			".txt": (path) => new TextLoader(path),
 		});
 
@@ -18,8 +18,18 @@ export const run = async () => {
 			chunkSize: 1000,
 			chunkOverlap: 200,
 		});
-		const output = await splitter.splitDocuments(rawDocs);
-		console.log(output);
+		const splitDocument = await splitter.splitDocuments(rawDocs);
+
+		/*
+		Create Embeddings
+			- Represent the split document as a set of vectors - [0.1,0.2,0.3.....]
+			- Makes it easier to semantic search (look up similar text in the document)
+		*/
+		const embeddings = new OpenAIEmbeddings();
+		const documentRes = await embeddings.embedDocuments(["hello", "hi"]);
+
+		// ChromaDB
+		const client = new ChromaClient();
 	} catch (error) {
 		console.log("error", error);
 		throw new Error("Failed to ingest your data");
