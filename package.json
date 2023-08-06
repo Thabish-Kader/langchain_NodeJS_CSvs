@@ -10,14 +10,15 @@
 		"ingest": "tsx -r dotenv/config scripts/ingest.ts"
 	},
 	"dependencies": {
+		"@pinecone-database/pinecone": "^0.1.6",
 		"@types/node": "20.4.5",
 		"@types/react": "18.2.17",
 		"@types/react-dom": "18.2.7",
 		"autoprefixer": "10.4.14",
-		"chromadb": "^1.5.5",
 		"dotenv": "^16.3.1",
 		"eslint": "8.46.0",
 		"eslint-config-next": "13.4.12",
+		"hnswlib-node": "^1.4.2",
 		"langchain": "^0.0.123",
 		"next": "13.4.12",
 		"openai": "^3.3.0",
