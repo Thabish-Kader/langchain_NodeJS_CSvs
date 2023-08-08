@@ -5,6 +5,15 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
+import {
+	FunctionalTranslator,
+	SelfQueryRetriever,
+} from "langchain/retrievers/self_query";
+import { OpenAI } from "langchain";
+import {
+	ConversationalRetrievalQAChain,
+	loadQAStuffChain,
+} from "langchain/chains";
 
 const initPinecone = async () => {
 	try {
@@ -62,17 +71,51 @@ export const run = async () => {
 		throw new Error("Failed to ingest your data");
 	}
 };
-// TODO: Query the database
-// const ask = async () => {
-// 	const pinecone = await initPinecone();
 
-// 	const index = pinecone.Index("demo");
-// 	const embeddings = new OpenAIEmbeddings();
-// 	const res = await embeddings.embedQuery("Hello world");
-// 	const queryResponse = await index.query(res);
-// };
+async function queryPineconeVectorDb(
+	client: any,
+	indexName: any,
+	question: any
+) {
+	const index = client.Index(indexName);
+	const queryEmbedding = await new OpenAIEmbeddings().embedQuery(question);
+
+	let queryResponse = await index.query({
+		queryRequest: {
+			topK: 10,
+			vector: queryEmbedding,
+			includeMetadata: true,
+			includeValues: true,
+		},
+	});
+
+	console.log(`Found ${queryResponse.matches.length} matches...`);
+
+	console.log(`Asking question: ${question}...`);
+	if (queryResponse.matches.length) {
+		// 9. Create an OpenAI instance and load the QAStuffChain
+		const llm = new OpenAI({});
+		const chain = loadQAStuffChain(llm);
+		// 10. Extract and concatenate page content from matched documents
+		const concatenatedPageContent = queryResponse.matches
+			.map((match: any) => match.metadata.pageContent)
+			.join(" ");
+		// 11. Execute the chain with input documents and question
+		const result = await chain.call({
+			input_documents: [
+				new Document({ pageContent: concatenatedPageContent }),
+			],
+			question: question,
+		});
+		// 12. Log the answer
+		console.log(`Answer: ${result.text}`);
+	} else {
+		// 13. Log that there are no matches, so GPT-3 will not be queried
+		console.log("Since there are no matches, GPT-3 will not be queried.");
+	}
+}
 
 (async () => {
-	await run();
-	console.log("Data insertion complete");
+	const client = await initPinecone();
+	await queryPineconeVectorDb(client, "demo", "Brief Summary on Noah's Ark ");
 })();
