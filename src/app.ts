@@ -12,7 +12,6 @@ import { CSVLoader } from "langchain/document_loaders/fs/csv";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 
 import { config } from "dotenv";
-import fs from "fs";
 import { Document } from "langchain/document";
 
 config();
@@ -45,15 +44,6 @@ const run = async (question: string) => {
 	const model = new OpenAI({ openAIApiKey: process.env.OPENAI_API_KEY });
 	let vectorStore;
 
-	// if (fs.existsSync("MyVectore.index")) {
-	// 	console.log("Vectorstore already exists");
-	// 	vectorStore = await HNSWLib.load(
-	// 		"MyVectore.index",
-	// 		new OpenAIEmbeddings()
-	// 	);
-	// 	console.log(`Vectorstore loader -----> ${vectorStore}`);
-	// } else {
-	// 	console.log(`Vectorstore does not exist createing.....`);
 	const textSplitter = new RecursiveCharacterTextSplitter({
 		chunkSize: 256,
 		chunkOverlap: 100,
