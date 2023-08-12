@@ -16,50 +16,43 @@ import { Document } from "langchain/document";
 
 config();
 
-// Read data useing doc loader
+// Read data useing directory loader
 const loader = new DirectoryLoader("./docs", {
 	".json": (path) => new JSONLoader(path),
 	".txt": (path) => new TextLoader(path),
-	".csv": (path) => new CSVLoader(path),
+	".csv": (path) =>
+		new CSVLoader(path, { separator: ",", column: "first_name" }),
 	".pdf": (path) => new PDFLoader(path),
 });
 
 // See contents of docs that are being being loaded
 const docs = await loader.load();
-// console.log(docs);
+console.log(docs);
+const csvContent = docs.map((doc: Document) => doc.pageContent);
+console.log(`Page Content ---> ${csvContent}`);
 
-const normalizeDocs = (docs: Document[]) => {
-	return docs.map((doc: Document) => {
-		if (typeof doc.pageContent === "string") {
-			return doc.pageContent;
-		} else if (Array.isArray(doc.pageContent)) {
-			return (doc.pageContent as string[]).join("\n");
-		} else {
-			return "";
-		}
-	});
-};
-
-const run = async (question: string) => {
+const askModel = async (question: string) => {
 	const model = new OpenAI({ openAIApiKey: process.env.OPENAI_API_KEY });
 	let vectorStore;
 
 	const textSplitter = new RecursiveCharacterTextSplitter({
-		chunkSize: 256,
-		chunkOverlap: 100,
+		// To learn more about the parameters visit: https://dev.to/peterabel/what-chunk-size-and-chunk-overlap-should-you-use-4338
+		chunkSize: 1000,
+		chunkOverlap: 900,
 	});
-	console.log(`Text Splitted ----> ${textSplitter}`);
-	const normalizedDocs = normalizeDocs(docs);
-	const splitDocs = await textSplitter.createDocuments(normalizedDocs);
+	console.log("Text Splitting......");
+	console.log(`Chunk size  ----> ${textSplitter.chunkSize}`);
+	console.log(`Chunk Overlap  ----> ${textSplitter.chunkOverlap}`);
 
-	// Create vectorstore
+	const splitDocs = await textSplitter.createDocuments(csvContent);
+
 	vectorStore = await HNSWLib.fromDocuments(
 		splitDocs,
 		new OpenAIEmbeddings()
 	);
-	// 17. Save the vector store to the specified path
+
 	await vectorStore.save("MyVectore.index");
-	console.log(`Vector store created ----> ${vectorStore}`);
+	console.log(`Vector store created`);
 	// }
 
 	// RetrievalQAChain
@@ -69,4 +62,4 @@ const run = async (question: string) => {
 	console.log(res);
 };
 
-run("What is the data about ?");
+askModel("Is there Parsifal in the data ?");
