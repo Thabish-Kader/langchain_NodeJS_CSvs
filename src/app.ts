@@ -20,8 +20,7 @@ config();
 const loader = new DirectoryLoader("./docs", {
 	".json": (path) => new JSONLoader(path),
 	".txt": (path) => new TextLoader(path),
-	".csv": (path) =>
-		new CSVLoader(path, { separator: ",", column: "first_name" }),
+	".csv": (path) => new CSVLoader(path, { separator: "," }),
 	".pdf": (path) => new PDFLoader(path),
 });
 
@@ -62,4 +61,4 @@ const askModel = async (question: string) => {
 	console.log(res);
 };
 
-askModel("Is there Parsifal in the data ?");
+askModel("How many reviews do we have ?");
